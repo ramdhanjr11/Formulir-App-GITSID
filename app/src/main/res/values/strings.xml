@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Aplikasi Formulir</string>
+    <string name="update">Update Data</string>
+    <string name="tambah_gambar">tambah_gambar</string>
+    <string name="masukan_nama_lengkap">Masukan Nama Lengkap</string>
+    <string name="masukan_alamat">Masukan Alamat</string>
+    <string name="masukan_password">Masukan Password</string>
+    <string name="simpan">Simpan</string>
+    <string name="hapus">Hapus</string>
+    <string name="masukan_email">Masukan Email</string>
+    <string name="tambah_pengguna">tambah_pengguna</string>
+</resources>
