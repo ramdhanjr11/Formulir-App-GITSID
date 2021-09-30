@@ -21,6 +21,7 @@ import com.muramsyah.gits.formulirapp.domain.model.Formulir
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
@@ -36,13 +37,10 @@ class AddUpdateFragment : Fragment() {
         when (resultCode) {
             Activity.RESULT_OK -> {
                 val image = data?.data!!
-
                 binding.imgUser.setImageURI(image)
-                uploadFile(image)
+                initiateFile(image)
             }
-            ImagePicker.RESULT_ERROR ->{
-                Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
-            }
+            ImagePicker.RESULT_ERROR ->{ Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show() }
             else -> Toast.makeText(context, "Gagal mengubah gambar", Toast.LENGTH_SHORT).show()
         }
     }
@@ -52,6 +50,7 @@ class AddUpdateFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var imageName = ""
+    private var file: File? = null
     private lateinit var dataFormulir: Formulir
 
     override fun onCreateView(
@@ -74,38 +73,14 @@ class AddUpdateFragment : Fragment() {
                 edtNama.setText(dataFormulir.nama)
                 edtEmail.setText(dataFormulir.email)
 
-                Glide.with(requireContext())
-                    .load("http://192.168.1.7/todoAPI/gambar/${dataFormulir.image}")
-                    .into(binding.imgUser)
+                Glide.with(requireContext()).load("http://192.168.1.8/todoAPI/gambar/${dataFormulir.image}").into(binding.imgUser)
 
-                btnSimpan.setOnClickListener {
-                    doAction(true)
-                }
-
-                btnDelete.setOnClickListener {
-                    viewModel.deletePengguna(dataFormulir.id.toInt()).observe(viewLifecycleOwner, {
-                        when (it) {
-                            is Resource.Loading -> {
-                                binding.progressBar.visibility = View.VISIBLE
-                            }
-                            is Resource.Success -> {
-                                binding.progressBar.visibility = View.GONE
-                                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
-                                binding.root.findNavController().popBackStack()
-                            }
-                            is Resource.Error -> {
-                                binding.progressBar.visibility = View.GONE
-                                Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
-                            }
-                        }
-                    })
-                }
+                btnSimpan.setOnClickListener { doAction(true) }
+                btnDelete.setOnClickListener { observerDeletePengguna() }
             }
         } else {
             binding.btnDelete.visibility = View.GONE
-            binding.btnSimpan.setOnClickListener {
-                doAction(false)
-            }
+            binding.btnSimpan.setOnClickListener { doAction(false) }
         }
 
         binding.fabEditImage.setOnClickListener {
@@ -118,27 +93,9 @@ class AddUpdateFragment : Fragment() {
         }
     }
 
-    private fun uploadFile(uri: Uri) {
-        val file = File(uri.path!!)
-        imageName = file.name
-
-        val mFile = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-        val imageBody = MultipartBody.Part.createFormData("file", imageName, mFile)
-
-        viewModel.uploadImage(imageBody).observe(viewLifecycleOwner, {
-            when (it) {
-                is Resource.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                }
-                is Resource.Success -> {
-                    binding.progressBar.visibility = View.GONE
-                }
-                is Resource.Error -> {
-                    binding.progressBar.visibility = View.GONE
-                    Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_LONG).show()
-                }
-            }
-        })
+    private fun initiateFile(uri: Uri) {
+        file = File(uri.path!!)
+        imageName = file!!.name
     }
 
     private fun doAction(isUpdate: Boolean) {
@@ -147,72 +104,155 @@ class AddUpdateFragment : Fragment() {
         val email    = binding.edtEmail.text.toString().trim()
         val password = binding.edtPassword.text.toString().trim()
 
-        var isUpload = false
+        var isError = false
 
         if (TextUtils.isEmpty(nama)) {
             binding.edtNama.error = "Isi nama terlebih dahulu!"
-            isUpload = false
+            isError = true
         }
 
         if (TextUtils.isEmpty(alamat)) {
             binding.edtAlamat.error = "Isi alamat terlebih dahulu"
-            isUpload = false
+            isError = true
         }
 
         if (TextUtils.isEmpty(email)) {
             binding.edtEmail.error = "Isi email terlebih dahulu"
-            isUpload = false
+            isError = true
         }
 
         if (TextUtils.isEmpty(password)) {
             binding.edtPassword.error = "Isi password terlebih dahulu"
-            isUpload = false
+            isError = true
         }
 
-        if (!isUpload) {
+        /**
+         * Memvalidasi form apakah masih ada error, jika tidak maka lakukan langkah didalam blok if
+         */
+        if (!isError) {
             lateinit var formulir: Formulir
-            if (imageName == "") {
-                formulir = Formulir("0", nama, alamat, email, "user_default.png", password)
+            lateinit var mFile: RequestBody
+            lateinit var imageBody: MultipartBody.Part
+            val isFile: Boolean
+
+            /**
+             * Memvalidasi file pada fungsi initiateFile() untuk menentukan data file yang akan dikirim ke server
+             */
+            if (file != null) {
+                mFile       = file!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                imageBody   = MultipartBody.Part.createFormData("file", imageName, mFile)
+                formulir    = Formulir("0", nama, alamat, email, imageName, password)
+                isFile      = true
             } else {
-                formulir = Formulir("0", nama, alamat, email, imageName, password)
+                formulir    = Formulir("0", nama, alamat, email, "user_default.png", password)
+                isFile      = false
             }
 
+            /**
+             * Memvalidasi apakah form ini untuk update atau insert
+             */
             if (isUpdate) {
-                viewModel.updatePengguna(dataFormulir.id.toInt(), formulir).observe(viewLifecycleOwner, {
-                    when (it) {
-                        is Resource.Loading -> {
-                            binding.progressBar.visibility = View.VISIBLE
+                if (isFile) {
+                    viewModel.uploadImage(imageBody).observe(viewLifecycleOwner, {
+                        when (it) {
+                            is Resource.Loading -> {
+                                binding.progressBar.visibility = View.VISIBLE
+                            }
+                            is Resource.Success -> {
+                                binding.progressBar.visibility = View.GONE
+                                observeUpdatePengguna(formulir)
+                            }
+                            is Resource.Error -> {
+                                binding.progressBar.visibility = View.GONE
+                                Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_LONG).show()
+                            }
                         }
-                        is Resource.Success -> {
-                            binding.progressBar.visibility = View.GONE
-                            Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
-                            binding.root.findNavController().popBackStack()
-                        }
-                        is Resource.Error -> {
-                            binding.progressBar.visibility = View.GONE
-                            Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
-                        }
-                    }
-                })
+                    })
+                } else {
+                    formulir = Formulir("0", nama, alamat, email, dataFormulir.image, password)
+                    observeUpdatePengguna(formulir)
+                }
+
             } else {
-                viewModel.insertPengguna(formulir).observe(viewLifecycleOwner, {
-                    when (it) {
-                        is Resource.Loading -> {
-                            binding.progressBar.visibility = View.VISIBLE
+                if (isFile) {
+                    viewModel.uploadImage(imageBody).observe(viewLifecycleOwner, {
+                        when (it) {
+                            is Resource.Loading -> {
+                                binding.progressBar.visibility = View.VISIBLE
+                            }
+                            is Resource.Success -> {
+                                binding.progressBar.visibility = View.GONE
+                                observeInsertPengguna(formulir)
+                            }
+                            is Resource.Error -> {
+                                binding.progressBar.visibility = View.GONE
+                                Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_LONG).show()
+                            }
                         }
-                        is Resource.Success -> {
-                            binding.progressBar.visibility = View.GONE
-                            Toast.makeText(context, "Berhasil menambahkan pengguna", Toast.LENGTH_SHORT).show()
-                            binding.root.findNavController().popBackStack()
-                        }
-                        is Resource.Error -> {
-                            binding.progressBar.visibility = View.GONE
-                            Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
-                        }
-                    }
-                })
+                    })
+                } else {
+                    observeInsertPengguna(formulir)
+                }
             }
         }
+    }
+
+    private fun observeInsertPengguna(formulir: Formulir) {
+        viewModel.insertPengguna(formulir).observe(viewLifecycleOwner, {
+            when (it) {
+                is Resource.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                is Resource.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(context, "Berhasil menambahkan pengguna", Toast.LENGTH_SHORT).show()
+                    binding.root.findNavController().popBackStack()
+                }
+                is Resource.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        })
+    }
+
+    private fun observeUpdatePengguna(formulir: Formulir) {
+        viewModel.updatePengguna(dataFormulir.id.toInt(), formulir)
+            .observe(viewLifecycleOwner, {
+                when (it) {
+                    is Resource.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+                    is Resource.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                        binding.root.findNavController().popBackStack()
+                    }
+                    is Resource.Error -> {
+                        binding.progressBar.visibility = View.GONE
+                        Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                    }
+                }
+            })
+    }
+
+    private fun observerDeletePengguna() {
+        viewModel.deletePengguna(dataFormulir.id.toInt()).observe(viewLifecycleOwner, {
+            when (it) {
+                is Resource.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                is Resource.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                    binding.root.findNavController().popBackStack()
+                }
+                is Resource.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        })
     }
 
     override fun onDestroy() {
