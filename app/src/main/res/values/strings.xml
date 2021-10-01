@@ -15,4 +15,5 @@
     <string name="aplikasi_formulir_sederhana">Aplikasi Formulir Sederhana</string>
     <string name="belum_mempunyai_akun">Belum mempunyai akun?</string>
     <string name="buat_akun_baru">Buat Akun baru</string>
+    <string name="logout">Logout</string>
 </resources>

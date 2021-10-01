@@ -1,12 +1,12 @@
 package com.muramsyah.gits.formulirapp.ui.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.muramsyah.gits.formulirapp.R
@@ -24,6 +24,8 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val  binding get() = _binding!!
 
+    private var session = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,7 +37,19 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        /**
+         * Melakukan setup toolbar
+         * dan memberikan option menu true
+         */
+        val reqActivity = requireActivity() as AppCompatActivity
+        reqActivity.setSupportActionBar(binding.toolbar)
+        reqActivity.title = "Home Pengguna"
+
+        setHasOptionsMenu(true)
+
         initViewModel()
+
+        session = viewModel.loginSession
 
         binding.fabTambahFormulir.setOnClickListener {
             it.findNavController().navigate(R.id.action_homeFragment_to_addUpdateFragment)
@@ -60,11 +74,24 @@ class HomeFragment : Fragment() {
                     binding.rvFormulir.setHasFixedSize(true)
                     adapter.onItemClicked = {
                         val bundle = Bundle().apply { putParcelable(AddUpdateFragment.EXTRA_DATA, it) }
-                        binding.root.findNavController().navigate(R.id.action_homeFragment_to_addUpdateFragment, bundle)
+                        findNavController().navigate(R.id.action_homeFragment_to_addUpdateFragment, bundle)
                     }
                 }
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_home, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_logout) {
+            viewModel.setSession(!session)
+            findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroy() {

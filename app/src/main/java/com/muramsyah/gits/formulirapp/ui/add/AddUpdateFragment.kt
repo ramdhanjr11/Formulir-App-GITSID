@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -64,8 +65,15 @@ class AddUpdateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        /**
+         * Melakukan setup toolbar
+         */
+        val reqActivity = requireActivity() as AppCompatActivity
+        reqActivity.setSupportActionBar(binding.toolbar)
+
         if (arguments != null) {
             dataFormulir = arguments?.getParcelable(EXTRA_DATA)!!
+            reqActivity.title = "Edit ${dataFormulir.nama}"
 
             with(binding) {
                 btnSimpan.text = context?.getString(R.string.update)
@@ -79,6 +87,7 @@ class AddUpdateFragment : Fragment() {
                 btnDelete.setOnClickListener { observerDeletePengguna() }
             }
         } else {
+            reqActivity.title = "Tambah data pengguna"
             binding.btnDelete.visibility = View.GONE
             binding.btnSimpan.setOnClickListener { doAction(false) }
         }
