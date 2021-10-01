@@ -34,4 +34,11 @@ interface ApiService {
     suspend fun deletePengguna(
         @Query("id") id: Int
     ): ImageResponse
+
+    @FormUrlEncoded
+    @POST("todoAPI.php?fun=login")
+    suspend fun login(
+        @Field("email") email: String,
+        @Field("password") password: String
+    ): InsertResponse
 }

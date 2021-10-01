@@ -16,4 +16,6 @@ interface IFormulirRepository {
     fun updatePengguna(id: Int, data: Formulir): Flow<Resource<String>>
 
     fun deletePengguna(id: Int): Flow<Resource<String>>
+
+    fun login(email: String, password: String): Flow<Resource<String>>
 }

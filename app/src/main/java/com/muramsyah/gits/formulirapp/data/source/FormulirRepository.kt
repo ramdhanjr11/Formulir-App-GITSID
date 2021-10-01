@@ -111,4 +111,21 @@ class FormulirRepository @Inject constructor(private val remoteDataSource: Remot
         }
     }
 
+    override fun login(email: String, password: String): Flow<Resource<String>> {
+        return flow<Resource<String>> {
+            emit(Resource.Loading(null))
+            when (val apiResponse = remoteDataSource.login(email, password).first()) {
+                is ApiResponse.Success -> {
+                    emit(Resource.Success(null, apiResponse.data?.message))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.message!!))
+                }
+                is ApiResponse.Empty -> {
+                    Log.d(TAG, "login: login kosong")
+                }
+            }
+        }
+    }
+
 }

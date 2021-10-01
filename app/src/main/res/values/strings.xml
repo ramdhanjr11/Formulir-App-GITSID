@@ -9,4 +9,10 @@
     <string name="hapus">Hapus</string>
     <string name="masukan_email">Masukan Email</string>
     <string name="tambah_pengguna">tambah_pengguna</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="aplikasi_formulir_sederhana">Aplikasi Formulir Sederhana</string>
+    <string name="belum_mempunyai_akun">Belum mempunyai akun?</string>
+    <string name="buat_akun_baru">Buat Akun baru</string>
 </resources>

@@ -108,4 +108,18 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
 
     }
 
+    suspend fun login(email: String, password: String): Flow<ApiResponse<InsertResponse>> {
+
+        return flow {
+            val response = apiService.login(email, password)
+            when (response.status) {
+                200 -> emit(ApiResponse.Success(response))
+                400 -> emit(ApiResponse.Error("Login gagal"))
+                401 -> emit(ApiResponse.Error("Masukan parameter"))
+                else -> emit(ApiResponse.Empty)
+            }
+        }
+
+    }
+
 }

@@ -17,4 +17,6 @@ interface FormulirUseCase {
 
     fun deletePengguna(id: Int) : Flow<Resource<String>>
 
+    fun login(email: String, password: String) : Flow<Resource<String>>
+
 }
