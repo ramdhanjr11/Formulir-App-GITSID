@@ -1,6 +1,7 @@
 package com.muramsyah.gits.formulirapp.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,9 +9,18 @@ import com.bumptech.glide.Glide
 import com.muramsyah.gits.formulirapp.databinding.ItemLayoutFormulirBinding
 import com.muramsyah.gits.formulirapp.domain.model.Formulir
 
-class HomeAdapter(val formulirs: List<Formulir>) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+
+    private var formulirs = ArrayList<Formulir>()
 
     var onItemClicked: ((Formulir) -> Unit)? = null
+
+    fun setData(data: List<Formulir>) {
+        formulirs.clear()
+        formulirs.addAll(data)
+        notifyDataSetChanged()
+        Log.d("adapter", "setData: $formulirs")
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = ItemLayoutFormulirBinding.inflate(LayoutInflater.from(parent.context), parent, false)

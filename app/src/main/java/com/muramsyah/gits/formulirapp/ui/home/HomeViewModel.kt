@@ -1,6 +1,7 @@
 package com.muramsyah.gits.formulirapp.ui.home
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,14 +18,13 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(val useCase: FormulirUseCase, val sharedPreferences: AppSharedPreferences) : ViewModel() {
 
     private var _allPengguna = MutableLiveData<Resource<List<Formulir>>>()
-    val allPengguna get() = _allPengguna
+    fun allPengguna(): LiveData<Resource<List<Formulir>>> {
+        getAllPengguna()
+        return _allPengguna
+    }
 
     private var _loginSession = sharedPreferences
     val loginSession get() = _loginSession.loginSession
-
-    init {
-        getAllPengguna()
-    }
 
     private fun getAllPengguna() {
         viewModelScope.launch {
@@ -35,6 +35,7 @@ class HomeViewModel @Inject constructor(val useCase: FormulirUseCase, val shared
                     }
                     is Resource.Success -> {
                         _allPengguna.value = it
+                        Log.d("dataViewModel", it.data.toString())
                     }
                     is Resource.Error -> {
                         Log.d("HomeViewModel", "getAllPengguna: ${it.message}")

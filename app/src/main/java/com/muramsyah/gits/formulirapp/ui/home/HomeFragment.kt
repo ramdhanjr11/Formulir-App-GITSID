@@ -1,6 +1,7 @@
 package com.muramsyah.gits.formulirapp.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -24,6 +25,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val  binding get() = _binding!!
 
+    private lateinit var adapter: HomeAdapter
     private var session = false
 
     override fun onCreateView(
@@ -49,6 +51,8 @@ class HomeFragment : Fragment() {
 
         initViewModel()
 
+        adapter = HomeAdapter()
+
         session = viewModel.loginSession
 
         binding.fabTambahFormulir.setOnClickListener {
@@ -62,14 +66,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        viewModel.allPengguna.observe(viewLifecycleOwner, {
+        viewModel.allPengguna().observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Loading -> { binding.progressBar.visibility = View.VISIBLE }
                 is Resource.Success -> {
-                    val adapter = HomeAdapter(it.data!!)
+                    adapter.setData(it.data!!)
                     binding.progressBar.visibility = View.GONE
                     binding.rvFormulir.adapter = adapter
-                    binding.rvFormulir.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
                     binding.rvFormulir.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                     binding.rvFormulir.setHasFixedSize(true)
                     adapter.onItemClicked = {
