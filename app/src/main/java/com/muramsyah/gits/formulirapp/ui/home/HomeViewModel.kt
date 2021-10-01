@@ -7,16 +7,20 @@ import androidx.lifecycle.viewModelScope
 import com.muramsyah.gits.formulirapp.data.Resource
 import com.muramsyah.gits.formulirapp.domain.model.Formulir
 import com.muramsyah.gits.formulirapp.domain.usecase.FormulirUseCase
+import com.muramsyah.gits.formulirapp.sf.AppSharedPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(val useCase: FormulirUseCase) : ViewModel() {
+class HomeViewModel @Inject constructor(val useCase: FormulirUseCase, val sharedPreferences: AppSharedPreferences) : ViewModel() {
 
     private var _allPengguna = MutableLiveData<Resource<List<Formulir>>>()
     val allPengguna get() = _allPengguna
+
+    private var _loginSession = sharedPreferences
+    val loginSession get() = _loginSession.loginSession
 
     init {
         getAllPengguna()
@@ -38,6 +42,10 @@ class HomeViewModel @Inject constructor(val useCase: FormulirUseCase) : ViewMode
                 }
             }
         }
+    }
+
+    fun setSession(session: Boolean) {
+        _loginSession.loginSession = session
     }
 
 }
