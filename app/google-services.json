@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "155490192897",
+    "project_id": "gits-task",
+    "storage_bucket": "gits-task.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:155490192897:android:1d9a0c8a3a1a3bb2f37a00",
+        "android_client_info": {
+          "package_name": "com.muramsyah.gits.formulirapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "155490192897-30r7s9i6cvjba57eu6rv6hg753taerhn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKolcuSDvwKU5LAHJIYGaRSZJei2r8LxQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "155490192897-30r7s9i6cvjba57eu6rv6hg753taerhn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
