@@ -122,4 +122,18 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
 
     }
 
+    suspend fun sendNotif(title: String, message: String): Flow<ApiResponse<ImageResponse>> {
+
+        return flow {
+            val response = apiService.sendNotif(title, message)
+            when (response.status) {
+                200 -> emit(ApiResponse.Success(response))
+                402 -> emit(ApiResponse.Error("Terjadi kesalahan"))
+                403 -> emit(ApiResponse.Error("Parameter tidak sesuai"))
+                else -> emit(ApiResponse.Empty)
+            }
+        }
+
+    }
+
 }

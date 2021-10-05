@@ -128,4 +128,20 @@ class FormulirRepository @Inject constructor(private val remoteDataSource: Remot
         }
     }
 
+    override fun sendNotif(title: String, message: String): Flow<Resource<String>> {
+        return flow<Resource<String>> {
+            emit(Resource.Loading(null))
+            when (val apiResponse = remoteDataSource.sendNotif(title, message).first()) {
+                is ApiResponse.Success -> {
+                    emit(Resource.Success(null, apiResponse.data?.message))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.message!!))
+                }
+                is ApiResponse.Empty -> {
+                    Log.d(TAG, "sendNotif: kosong")
+                }
+            }
+        }
+    }
 }

@@ -18,4 +18,6 @@ interface IFormulirRepository {
     fun deletePengguna(id: Int): Flow<Resource<String>>
 
     fun login(email: String, password: String): Flow<Resource<String>>
+
+    fun sendNotif(title: String, message: String): Flow<Resource<String>>
 }

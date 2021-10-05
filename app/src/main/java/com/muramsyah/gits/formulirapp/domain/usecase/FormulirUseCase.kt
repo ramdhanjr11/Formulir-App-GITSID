@@ -19,4 +19,6 @@ interface FormulirUseCase {
 
     fun login(email: String, password: String) : Flow<Resource<String>>
 
+    fun sendNotif(title: String, message: String) : Flow<Resource<String>>
+
 }

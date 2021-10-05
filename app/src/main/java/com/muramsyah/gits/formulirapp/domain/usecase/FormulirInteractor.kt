@@ -21,4 +21,5 @@ class FormulirInteractor @Inject constructor(private val formulirRepository: IFo
 
     override fun login(email: String, password: String): Flow<Resource<String>> = formulirRepository.login(email, password)
 
+    override fun sendNotif(title: String, message: String): Flow<Resource<String>> = formulirRepository.sendNotif(title, message)
 }

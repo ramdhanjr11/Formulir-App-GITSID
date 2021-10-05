@@ -41,4 +41,11 @@ interface ApiService {
         @Field("email") email: String,
         @Field("password") password: String
     ): InsertResponse
+
+    @FormUrlEncoded
+    @POST("todoAPI.php?fun=send_notif")
+    suspend fun sendNotif(
+        @Field("title") title: String,
+        @Field("message") message: String
+    ): ImageResponse
 }
