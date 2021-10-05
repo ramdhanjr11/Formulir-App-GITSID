@@ -37,7 +37,7 @@ class LoginFragment : Fragment() {
         val session = viewModel.loginSession
 
         if (session) {
-            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+            findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
         } else {
             binding.btnLogin.setOnClickListener {
                 val email     = binding.edtEmail.text.toString().trim()
@@ -64,7 +64,7 @@ class LoginFragment : Fragment() {
                                 binding.progressBar.visibility = View.GONE
                                 Snackbar.make(binding.root, "Login Sukses", Snackbar.LENGTH_SHORT).show()
                                 viewModel.setSession(!session)
-                                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                                findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
                             }
                             is Resource.Error -> {
                                 binding.progressBar.visibility = View.GONE
