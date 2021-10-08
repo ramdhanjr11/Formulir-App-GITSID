@@ -3,10 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Gits-Indonesia/Kelas/Tugas/FormulirApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3880208333333333" />
+        <entry key="..\:/Gits-Indonesia/Kelas/Tugas/FormulirApp/app/src/main/res/drawable/ic_add.xml" value="0.3880208333333333" />
         <entry key="..\:/Gits-Indonesia/Kelas/Tugas/FormulirApp/app/src/main/res/drawable/ic_base_image.xml" value="0.221875" />
         <entry key="..\:/Gits-Indonesia/Kelas/Tugas/FormulirApp/app/src/main/res/drawable/ic_email.xml" value="0.203125" />
+        <entry key="..\:/Gits-Indonesia/Kelas/Tugas/FormulirApp/app/src/main/res/drawable/ic_image.xml" value="0.3880208333333333" />
+        <entry key="..\:/Gits-Indonesia/Kelas/Tugas/FormulirApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3880208333333333" />
         <entry key="..\:/Gits-Indonesia/Kelas/Tugas/FormulirApp/app/src/main/res/drawable/ic_logout.xml" value="0.22708333333333333" />
         <entry key="..\:/Gits-Indonesia/Kelas/Tugas/FormulirApp/app/src/main/res/drawable/ic_password.xml" value="0.203125" />
+        <entry key="..\:/Gits-Indonesia/Kelas/Tugas/FormulirApp/app/src/main/res/drawable/ic_person.xml" value="0.3880208333333333" />
+        <entry key="..\:/Gits-Indonesia/Kelas/Tugas/FormulirApp/app/src/main/res/drawable/ic_shape_oval.xml" value="0.3880208333333333" />
         <entry key="..\:/Gits-Indonesia/Kelas/Tugas/FormulirApp/app/src/main/res/layout/activity_add_update.xml" value="0.20572916666666666" />
         <entry key="..\:/Gits-Indonesia/Kelas/Tugas/FormulirApp/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Gits-Indonesia/Kelas/Tugas/FormulirApp/app/src/main/res/layout/fragment_add_update.xml" value="0.25" />
@@ -16,6 +22,7 @@
         <entry key="..\:/Gits-Indonesia/Kelas/Tugas/FormulirApp/app/src/main/res/layout/fragment_login.xml" value="0.33" />
         <entry key="..\:/Gits-Indonesia/Kelas/Tugas/FormulirApp/app/src/main/res/layout/fragment_register.xml" value="0.22" />
         <entry key="..\:/Gits-Indonesia/Kelas/Tugas/FormulirApp/app/src/main/res/layout/fragment_send_notification.xml" value="0.2" />
+        <entry key="..\:/Gits-Indonesia/Kelas/Tugas/FormulirApp/app/src/main/res/layout/fragment_splash_screen.xml" value="0.5" />
         <entry key="..\:/Gits-Indonesia/Kelas/Tugas/FormulirApp/app/src/main/res/layout/item_layout_formulir.xml" value="0.22" />
         <entry key="..\:/Gits-Indonesia/Kelas/Tugas/FormulirApp/app/src/main/res/menu/menu_home.xml" value="0.33" />
       </map>
