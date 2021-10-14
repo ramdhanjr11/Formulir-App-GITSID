@@ -19,7 +19,11 @@ class FormulirInteractor @Inject constructor(private val formulirRepository: IFo
 
     override fun deletePengguna(id: Int): Flow<Resource<String>> = formulirRepository.deletePengguna(id)
 
-    override fun login(email: String, password: String): Flow<Resource<String>> = formulirRepository.login(email, password)
+    override fun login(email: String, password: String): Flow<Resource<Formulir>> = formulirRepository.login(email, password)
 
     override fun sendNotif(title: String, message: String): Flow<Resource<String>> = formulirRepository.sendNotif(title, message)
+
+    override fun loginAuth(deviceId: String): Flow<Resource<String>> = formulirRepository.loginAuth(deviceId)
+
+    override fun updateDeviceId(deviceId: String, userId: String): Flow<Resource<String>> = formulirRepository.updateDeviceId(deviceId, userId)
 }

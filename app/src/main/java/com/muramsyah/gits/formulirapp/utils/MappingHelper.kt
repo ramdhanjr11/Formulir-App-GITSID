@@ -1,6 +1,7 @@
 package com.muramsyah.gits.formulirapp.utils
 
 import com.muramsyah.gits.formulirapp.data.source.remote.response.Data
+import com.muramsyah.gits.formulirapp.data.source.remote.response.FormulirResponse
 import com.muramsyah.gits.formulirapp.domain.model.Formulir
 
 object MappingHelper {
@@ -19,6 +20,16 @@ object MappingHelper {
 
     fun domainToEntity(data: Formulir): Data =
         Data(
+            id = data.id,
+            nama = data.nama,
+            alamat = data.alamat,
+            email = data.email,
+            image = data.image,
+            password = data.password
+        )
+
+    fun entityToDomain(data: Data): Formulir =
+        Formulir(
             id = data.id,
             nama = data.nama,
             alamat = data.alamat,

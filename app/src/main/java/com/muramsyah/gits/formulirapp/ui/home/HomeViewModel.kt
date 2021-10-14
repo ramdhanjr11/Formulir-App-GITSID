@@ -23,8 +23,11 @@ class HomeViewModel @Inject constructor(val useCase: FormulirUseCase, val shared
         return _allPengguna
     }
 
-    private var _loginSession = sharedPreferences
-    val loginSession get() = _loginSession.loginSession
+    private var _loginSession = sharedPreferences.loginSession
+    val loginSession get() = _loginSession
+
+    private var _userId = sharedPreferences.userId
+    val userId get() = _userId
 
     private fun getAllPengguna() {
         viewModelScope.launch {
@@ -46,7 +49,11 @@ class HomeViewModel @Inject constructor(val useCase: FormulirUseCase, val shared
     }
 
     fun setSession(session: Boolean) {
-        _loginSession.loginSession = session
+        _loginSession = session
+    }
+
+    fun setUserId(userId: String) {
+        _userId = userId
     }
 
 }

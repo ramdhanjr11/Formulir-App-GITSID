@@ -19,7 +19,6 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
         formulirs.clear()
         formulirs.addAll(data)
         notifyDataSetChanged()
-        Log.d("adapter", "setData: $formulirs")
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,7 +37,7 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
         fun bind(data: Formulir) {
 
             Glide.with(itemView.context)
-                .load("http://192.168.1.7/todoAPI/gambar/${data.image}")
+                .load("http://192.168.1.8/todoAPI/gambar/${data.image}")
                 .into(binding.imgUser)
             binding.tvName.text = data.nama
             binding.tvEmail.text = data.email

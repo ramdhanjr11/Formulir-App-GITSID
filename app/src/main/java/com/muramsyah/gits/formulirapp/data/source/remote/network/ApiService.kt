@@ -1,5 +1,6 @@
 package com.muramsyah.gits.formulirapp.data.source.remote.network
 
+import android.media.Image
 import com.muramsyah.gits.formulirapp.data.source.remote.response.FormulirResponse
 import com.muramsyah.gits.formulirapp.data.source.remote.response.ImageResponse
 import com.muramsyah.gits.formulirapp.data.source.remote.response.InsertResponse
@@ -48,4 +49,18 @@ interface ApiService {
         @Field("title") title: String,
         @Field("message") message: String
     ): ImageResponse
+
+    @FormUrlEncoded
+    @POST("todoAPI.php?fun=login_auth")
+    suspend fun loginAuth(
+        @Field("id_device") deviceId: String
+    ): ImageResponse
+
+    @FormUrlEncoded
+    @POST("todoAPI.php?fun=update_id_device")
+    suspend fun updateDeviceId(
+        @Field("id_device") deviceId: String,
+        @Field("id_user") userId: String
+    ): ImageResponse
+
 }

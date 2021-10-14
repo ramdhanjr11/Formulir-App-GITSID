@@ -17,7 +17,11 @@ interface IFormulirRepository {
 
     fun deletePengguna(id: Int): Flow<Resource<String>>
 
-    fun login(email: String, password: String): Flow<Resource<String>>
+    fun login(email: String, password: String): Flow<Resource<Formulir>>
 
     fun sendNotif(title: String, message: String): Flow<Resource<String>>
+
+    fun loginAuth(deviceId: String): Flow<Resource<String>>
+
+    fun updateDeviceId(deviceId: String, userId: String): Flow<Resource<String>>
 }

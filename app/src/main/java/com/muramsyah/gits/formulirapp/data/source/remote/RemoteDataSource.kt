@@ -136,4 +136,32 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
 
     }
 
+    suspend fun loginAuth(deviceId: String): Flow<ApiResponse<ImageResponse>> {
+
+        return flow {
+            val response = apiService.loginAuth(deviceId)
+            when (response.status) {
+                200 -> emit(ApiResponse.Success(response))
+                400 -> emit(ApiResponse.Error("Login gagal"))
+                403 -> emit(ApiResponse.Error("Parameter tidak sesuai"))
+                else -> emit(ApiResponse.Empty)
+            }
+        }
+
+    }
+
+    suspend fun updateDeviceId(deviceId: String, userId: String): Flow<ApiResponse<ImageResponse>> {
+
+        return flow {
+            val response = apiService.updateDeviceId(deviceId, userId)
+            when (response.status) {
+                200 -> emit(ApiResponse.Success(response))
+                401 -> emit(ApiResponse.Error("Gagal"))
+                404 -> emit(ApiResponse.Error("Parameter tidak sesuai"))
+                else -> emit(ApiResponse.Empty)
+            }
+        }
+
+    }
+
 }

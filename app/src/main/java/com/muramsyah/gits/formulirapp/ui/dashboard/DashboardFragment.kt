@@ -1,6 +1,7 @@
 package com.muramsyah.gits.formulirapp.ui.dashboard
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +31,8 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.d("Dashboard", viewModel.userId)
+
         binding.btnToPengguna.setOnClickListener {
             it.findNavController().navigate(R.id.action_dashboardFragment_to_homeFragment)
         }
@@ -40,6 +43,7 @@ class DashboardFragment : Fragment() {
 
         binding.ibLogout.setOnClickListener {
             viewModel.setSession(!viewModel.loginSession)
+            viewModel.setUserId("")
             it.findNavController().navigate(R.id.action_dashboardFragment_to_loginFragment)
         }
     }

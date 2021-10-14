@@ -81,7 +81,7 @@ class AddUpdateFragment : Fragment() {
                 edtNama.setText(dataFormulir.nama)
                 edtEmail.setText(dataFormulir.email)
 
-                Glide.with(requireContext()).load("http://192.168.1.7/todoAPI/gambar/${dataFormulir.image}").into(binding.imgUser)
+                Glide.with(requireContext()).load("http://192.168.1.8/todoAPI/gambar/${dataFormulir.image}").into(binding.imgUser)
 
                 btnSimpan.setOnClickListener { doAction(true) }
                 btnDelete.setOnClickListener { observerDeletePengguna() }

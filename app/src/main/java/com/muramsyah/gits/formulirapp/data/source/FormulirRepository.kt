@@ -111,12 +111,13 @@ class FormulirRepository @Inject constructor(private val remoteDataSource: Remot
         }
     }
 
-    override fun login(email: String, password: String): Flow<Resource<String>> {
-        return flow<Resource<String>> {
+    override fun login(email: String, password: String): Flow<Resource<Formulir>> {
+        return flow<Resource<Formulir>> {
             emit(Resource.Loading(null))
             when (val apiResponse = remoteDataSource.login(email, password).first()) {
                 is ApiResponse.Success -> {
-                    emit(Resource.Success(null, apiResponse.data?.message))
+                    val data = MappingHelper.entityToDomain(apiResponse.data?.data!!)
+                    emit(Resource.Success(data, apiResponse.data.message))
                 }
                 is ApiResponse.Error -> {
                     emit(Resource.Error(apiResponse.message!!))
@@ -140,6 +141,40 @@ class FormulirRepository @Inject constructor(private val remoteDataSource: Remot
                 }
                 is ApiResponse.Empty -> {
                     Log.d(TAG, "sendNotif: kosong")
+                }
+            }
+        }
+    }
+
+    override fun loginAuth(deviceId: String): Flow<Resource<String>> {
+        return flow<Resource<String>> {
+            emit(Resource.Loading(null))
+            when (val apiResponse = remoteDataSource.loginAuth(deviceId).first()) {
+                is ApiResponse.Success -> {
+                    emit(Resource.Success(null, apiResponse.data?.message))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.message!!))
+                }
+                is ApiResponse.Empty -> {
+                    Log.d(TAG, "loginAuth: kosong")
+                }
+            }
+        }
+    }
+
+    override fun updateDeviceId(deviceId: String, userId: String): Flow<Resource<String>> {
+        return flow<Resource<String>> {
+            emit(Resource.Loading(null))
+            when (val apiResponse = remoteDataSource.updateDeviceId(deviceId, userId).first()) {
+                is ApiResponse.Success -> {
+                    emit(Resource.Success(null, apiResponse.data?.message))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.message!!))
+                }
+                is ApiResponse.Empty -> {
+                    Log.d(TAG, "updateDeviceId: kosong")
                 }
             }
         }

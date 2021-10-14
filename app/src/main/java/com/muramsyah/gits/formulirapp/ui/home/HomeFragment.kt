@@ -90,6 +90,7 @@ class HomeFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_logout) {
             viewModel.setSession(!session)
+            viewModel.setUserId("")
             findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
         }
         return super.onOptionsItemSelected(item)

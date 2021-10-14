@@ -13,9 +13,20 @@ class AuthViewModel @Inject constructor(val useCase: FormulirUseCase, val shared
     private var _loginSession = sharedPreferences
     val loginSession get() = _loginSession.loginSession
 
+    private var _userId = sharedPreferences
+    val userId get() = _userId.userId
+
     fun setSession(session: Boolean) {
         _loginSession.loginSession = session
     }
 
+    fun setUserId(userId: String) {
+        _userId.userId = userId
+    }
+
     fun login(email: String, password: String) = useCase.login(email, password).asLiveData()
+
+    fun loginAuth(deviceId: String) = useCase.loginAuth(deviceId).asLiveData()
+
+    fun updateDeviceId(deviceId: String, userId: String) = useCase.updateDeviceId(deviceId, userId).asLiveData()
 }

@@ -11,7 +11,14 @@ class DashboardViewModel @Inject constructor(val sharedPreferences: AppSharedPre
     private var _loginSession = sharedPreferences
     val loginSession get() = _loginSession.loginSession
 
+    private var _userId = sharedPreferences
+    val userId get() = _userId.userId
+
     fun setSession(session: Boolean) {
         _loginSession.loginSession = session
+    }
+
+    fun setUserId(userId: String) {
+        _userId.userId = userId
     }
 }
