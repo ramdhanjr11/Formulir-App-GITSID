@@ -9,6 +9,7 @@
         email : VARCHAR(100)
         image : VARCHAR(200)
         password : VARCHAR(150)
+        id_device : VARCHAR(250)
     ```
 - Clone repository API dari https://github.com/ramdhanjr11/RestAPI-TodoApp lalu simpan pada direktori ```C:\xampp\htdocs``` dengan nama folder ```todoAPI```
 - Ubahlah ```Base URL``` pada direktori dibawah ini sesuai dengan ```IP Address``` milik anda : 
@@ -55,3 +56,4 @@
 - [EasyPermission](https://github.com/vmadalin/easypermissions-ktx)
 - [Image Picker](https://github.com/Dhaval2404/ImagePicker)
 - [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging/android/client?authuser=0)
+- [Biometric Auth](https://developer.android.com/training/sign-in/biometric-auth)
