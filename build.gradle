@@ -32,4 +32,7 @@ ext {
     circleimage_version = "3.1.0"
     easypermission_version = "1.0.0"
     imagepicker_version = "2.1"
+    firebase_version = "22.0.0"
+    biometric_version = "1.1.0"
+    lottie_version = "4.2.0"
 }

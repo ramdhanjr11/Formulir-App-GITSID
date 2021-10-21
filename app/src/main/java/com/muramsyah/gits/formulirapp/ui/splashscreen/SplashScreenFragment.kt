@@ -13,10 +13,6 @@ import com.muramsyah.gits.formulirapp.R
 
 class SplashScreenFragment : Fragment() {
 
-    companion object {
-        private const val DELAY_MILLIS = 2000L
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

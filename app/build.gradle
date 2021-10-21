@@ -86,8 +86,11 @@ dependencies {
     implementation "com.github.dhaval2404:imagepicker:$imagepicker_version"
 
     // Firebase Analytics and Cloud Messaging
-    implementation 'com.google.firebase:firebase-messaging-ktx:22.0.0'
+    implementation "com.google.firebase:firebase-messaging-ktx:$firebase_version"
 
      // Biometric
-    implementation "androidx.biometric:biometric:1.1.0"
+    implementation "androidx.biometric:biometric:$biometric_version"
+
+    // Lottie
+    implementation "com.airbnb.android:lottie:$lottie_version"
 }
